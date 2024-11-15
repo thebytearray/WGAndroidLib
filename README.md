@@ -3,21 +3,26 @@
 
 [![Release](https://jitpack.io/v/username/wireguard-android.svg)](https://jitpack.io/#username/wireguard-android)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Platform](https://img.shields.io/badge/platform-Android-green.svg)](https://developer.android.com)
 
-This library simplifies the integration of WireGuard VPN in Android applications. With this library, you can easily start, stop, and manage VPN connections programmatically.
+Simplify the integration of **WireGuard VPN** in your Android applications with this library. This library provides a clean API to manage VPN connections, handle configurations, and monitor tunnel states.
+
+---
 
 ## Features
-- Simple integration for WireGuard VPN in Android apps
-- Manage VPN states and configurations
-- Support for broadcasting tunnel states
-- Lightweight and easy to use
 
-## Getting Started
+- **Lightweight & Fast**: Minimal overhead with seamless integration.
+- **Comprehensive API**: Start, stop, and monitor VPN connections effortlessly.
+- **State Broadcasts**: Easily observe and react to connection state changes.
+- **Cross-Language Support**: Examples provided in both Kotlin and Java.
 
-### 1. Add Dependency
+---
 
-Add JitPack to your project-level `build.gradle` file:
+## Installation
 
+This library is available via [JitPack](https://jitpack.io). Add the repository and dependency to your project:
+
+### Gradle Groovy
 ```gradle
 allprojects {
     repositories {
@@ -25,20 +30,33 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
-```
 
-Add the library dependency to your module-level `build.gradle`:
-
-```gradle
 dependencies {
-    implementation 'com.github.CodeWithTamim:wireguard-android:Tag'
+    implementation 'com.github.username:wireguard-android:Tag'
 }
 ```
 
-### 2. Application Setup
+### Gradle Kotlin DSL
+```kotlin
+repositories {
+    ...
+    maven("https://jitpack.io")
+}
 
-Create an `Application` class and configure a notification channel:
+dependencies {
+    implementation("com.github.username:wireguard-android:Tag")
+}
+```
 
+---
+
+## Setup
+
+### 1. Configure the Application Class
+
+Create an `Application` class to configure a notification channel for VPN usage:
+
+#### Kotlin Example
 ```kotlin
 class TunnelApplication : Application() {
     override fun onCreate() {
@@ -60,9 +78,32 @@ class TunnelApplication : Application() {
 }
 ```
 
-### 3. Add Permissions
+#### Java Example
+```java
+public class TunnelApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        createNotificationChannel();
+    }
 
-Add the following permissions to your `AndroidManifest.xml`:
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            );
+            manager.createNotificationChannel(channel);
+        }
+    }
+}
+```
+
+### 2. Add Required Permissions
+
+Add these permissions to your `AndroidManifest.xml` file:
 
 ```xml
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
@@ -71,9 +112,9 @@ Add the following permissions to your `AndroidManifest.xml`:
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 ```
 
-### 4. Declare Services
+### 3. Register Services
 
-Add these service declarations to your `AndroidManifest.xml`:
+Declare the required services in `AndroidManifest.xml`:
 
 ```xml
 <service
@@ -92,28 +133,43 @@ Add these service declarations to your `AndroidManifest.xml`:
 </service>
 ```
 
-### 5. Using the Library
+---
 
-#### Initialize the Service Manager
+## Usage
 
-In your activity, initialize the `ServiceManager`:
+### Initialize the Service Manager
 
+#### Kotlin Example
 ```kotlin
 ServiceManager.init(this, R.drawable.notification_icon)
 ```
 
-#### Start and Stop VPN
+#### Java Example
+```java
+ServiceManager.init(this, R.drawable.notification_icon);
+```
 
-Prepare for connection:
+### Start and Stop the VPN
 
+#### Prepare for VPN Connection
+
+**Kotlin**
 ```kotlin
 if (!ServiceManager.isPreparedForConnection(context)) {
     ServiceManager.prepareForConnection(activity)
 }
 ```
 
-Start the VPN:
+**Java**
+```java
+if (!ServiceManager.isPreparedForConnection(context)) {
+    ServiceManager.prepareForConnection(activity);
+}
+```
 
+#### Start the VPN
+
+**Kotlin**
 ```kotlin
 val config = TunnelConfig(
     Interface("10.0.0.1/24", "privateKey", 51820),
@@ -122,16 +178,34 @@ val config = TunnelConfig(
 ServiceManager.startTunnel(context, config, blockedApps = listOf("com.example.app"))
 ```
 
-Stop the VPN:
+**Java**
+```java
+TunnelConfig config = new TunnelConfig(
+    new Interface("10.0.0.1/24", "privateKey", 51820),
+    new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
+);
+ServiceManager.startTunnel(context, config, Arrays.asList("com.example.app"));
+```
 
+#### Stop the VPN
+
+**Kotlin**
 ```kotlin
 ServiceManager.stopTunnel(context)
 ```
 
-#### Receive Tunnel State Broadcasts
+**Java**
+```java
+ServiceManager.stopTunnel(context);
+```
 
-Register a broadcast receiver to listen for tunnel state changes:
+---
 
+## Listen for Tunnel State Changes
+
+Register a broadcast receiver to listen for state changes:
+
+#### Kotlin Example
 ```kotlin
 val receiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -142,10 +216,25 @@ val receiver = object : BroadcastReceiver() {
 context.registerReceiver(receiver, IntentFilter("TUNNEL_STATE_ACTION"))
 ```
 
-### 6. Tunnel Configuration
+#### Java Example
+```java
+BroadcastReceiver receiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String state = intent.getStringExtra("TUNNEL_STATE");
+        // Handle state change: CONNECTED, DISCONNECTED, CONNECTING
+    }
+};
+context.registerReceiver(receiver, new IntentFilter("TUNNEL_STATE_ACTION"));
+```
 
-Define the `TunnelConfig` model:
+---
 
+## Tunnel Configurations
+
+Define configurations for the VPN connection using the `TunnelConfig` model.
+
+**Kotlin Example**
 ```kotlin
 val config = TunnelConfig(
     Interface("10.0.0.1/24", "privateKey", 51820),
@@ -153,18 +242,30 @@ val config = TunnelConfig(
 )
 ```
 
-### 7. Tunnel States
+**Java Example**
+```java
+TunnelConfig config = new TunnelConfig(
+    new Interface("10.0.0.1/24", "privateKey", 51820),
+    new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
+);
+```
 
-The library supports the following tunnel states:
-- `CONNECTED`
-- `DISCONNECTED`
-- `CONNECTING`
+---
 
-These states are broadcasted by the service and can be used to update the UI.
+## Tunnel States
+
+The library supports these tunnel states:
+- **CONNECTED**: VPN is active and connected.
+- **DISCONNECTED**: VPN is stopped.
+- **CONNECTING**: VPN is in the process of connecting.
+
+States are broadcasted by the service and can be used to update your UI.
+
+---
 
 ## License
 
-This library is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
