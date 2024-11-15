@@ -77,7 +77,7 @@ dependencies {
 #### Gradle Kotlin DSL
 ```kotlin
 dependencies {
-   implementation(project(":wireguard"))
+    implementation(project(":wireguard"))
 }
 ```
 
@@ -92,45 +92,45 @@ Create an `Application` class to configure a notification channel for VPN usage:
 #### Kotlin Example
 ```kotlin
 class TunnelApplication : Application() {
-   override fun onCreate() {
-      super.onCreate()
-      createNotificationChannel()
-   }
+    override fun onCreate() {
+        super.onCreate()
+        createNotificationChannel()
+    }
 
-   private fun createNotificationChannel() {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-         val manager = NotificationManagerCompat.from(this)
-         val channel = NotificationChannel(
-            CHANNEL_ID,
-            CHANNEL_NAME,
-            NotificationManager.IMPORTANCE_HIGH
-         )
-         manager.createNotificationChannel(channel)
-      }
-   }
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val manager = NotificationManagerCompat.from(this)
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            manager.createNotificationChannel(channel)
+        }
+    }
 }
 ```
 
 #### Java Example
 ```java
 public class TunnelApplication extends Application {
-   @Override
-   public void onCreate() {
-      super.onCreate();
-      createNotificationChannel();
-   }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        createNotificationChannel();
+    }
 
-   private void createNotificationChannel() {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-         NotificationChannel channel = new NotificationChannel(
-                 CHANNEL_ID,
-                 CHANNEL_NAME,
-                 NotificationManager.IMPORTANCE_HIGH
-         );
-         manager.createNotificationChannel(channel);
-      }
-   }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            );
+            manager.createNotificationChannel(channel);
+        }
+    }
 }
 ```
 
@@ -151,18 +151,18 @@ Declare the required services in `AndroidManifest.xml`:
 
 ```xml
 <service
-        android:name="com.nasahacker.wireguard.service.TunnelService"
-        android:exported="true"
-        android:foregroundServiceType="specialUse"
-        android:permission="android.permission.FOREGROUND_SERVICE" />
+    android:name="com.nasahacker.wireguard.service.TunnelService"
+    android:exported="true"
+    android:foregroundServiceType="specialUse"
+    android:permission="android.permission.FOREGROUND_SERVICE" />
 
 <service
-android:name="com.wireguard.android.backend.GoBackend$VpnService"
-android:exported="true"
-android:permission="android.permission.BIND_VPN_SERVICE">
-<intent-filter>
-   <action android:name="android.net.VpnService" />
-</intent-filter>
+    android:name="com.wireguard.android.backend.GoBackend$VpnService"
+    android:exported="true"
+    android:permission="android.permission.BIND_VPN_SERVICE">
+    <intent-filter>
+        <action android:name="android.net.VpnService" />
+    </intent-filter>
 </service>
 ```
 
@@ -189,14 +189,14 @@ ServiceManager.init(this, R.drawable.notification_icon);
 **Kotlin**
 ```kotlin
 if (!ServiceManager.isPreparedForConnection(context)) {
-   ServiceManager.prepareForConnection(activity)
+    ServiceManager.prepareForConnection(activity)
 }
 ```
 
 **Java**
 ```java
 if (!ServiceManager.isPreparedForConnection(context)) {
-        ServiceManager.prepareForConnection(activity);
+    ServiceManager.prepareForConnection(activity);
 }
 ```
 
@@ -205,8 +205,8 @@ if (!ServiceManager.isPreparedForConnection(context)) {
 **Kotlin**
 ```kotlin
 val config = TunnelConfig(
-   Interface("10.0.0.1/24", "privateKey", 51820),
-   Peer("publicKey", listOf("0.0.0.0/0"), "endpoint:51820")
+    Interface("10.0.0.1/24", "privateKey", 51820),
+    Peer("publicKey", listOf("0.0.0.0/0"), "endpoint:51820")
 )
 ServiceManager.startTunnel(context, config, blockedApps = listOf("com.example.app"))
 ```
@@ -214,8 +214,8 @@ ServiceManager.startTunnel(context, config, blockedApps = listOf("com.example.ap
 **Java**
 ```java
 TunnelConfig config = new TunnelConfig(
-        new Interface("10.0.0.1/24", "privateKey", 51820),
-        new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
+    new Interface("10.0.0.1/24", "privateKey", 51820),
+    new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
 );
 ServiceManager.startTunnel(context, config, Arrays.asList("com.example.app"));
 ```
@@ -241,10 +241,10 @@ Register a broadcast receiver to listen for state changes:
 #### Kotlin Example
 ```kotlin
 val receiver = object : BroadcastReceiver() {
-   override fun onReceive(context: Context?, intent: Intent?) {
-      val state = intent?.getStringExtra("TUNNEL_STATE")
-      // Handle state change: CONNECTED, DISCONNECTED, CONNECTING
-   }
+    override fun onReceive(context: Context?, intent: Intent?) {
+        val state = intent?.getStringExtra("TUNNEL_STATE")
+        // Handle state change: CONNECTED, DISCONNECTED, CONNECTING
+    }
 }
 context.registerReceiver(receiver, IntentFilter("TUNNEL_STATE_ACTION"))
 ```
@@ -252,11 +252,11 @@ context.registerReceiver(receiver, IntentFilter("TUNNEL_STATE_ACTION"))
 #### Java Example
 ```java
 BroadcastReceiver receiver = new BroadcastReceiver() {
-   @Override
-   public void onReceive(Context context, Intent intent) {
-      String state = intent.getStringExtra("TUNNEL_STATE");
-      // Handle state change: CONNECTED, DISCONNECTED, CONNECTING
-   }
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String state = intent.getStringExtra("TUNNEL_STATE");
+        // Handle state change: CONNECTED, DISCONNECTED, CONNECTING
+    }
 };
 context.registerReceiver(receiver, new IntentFilter("TUNNEL_STATE_ACTION"));
 ```
@@ -270,16 +270,16 @@ Define configurations for the VPN connection using the `TunnelConfig` model.
 **Kotlin Example**
 ```kotlin
 val config = TunnelConfig(
-   Interface("10.0.0.1/24", "privateKey", 51820),
-   Peer("publicKey", listOf("0.0.0.0/0"), "endpoint:51820")
+    Interface("10.0.0.1/24", "privateKey", 51820),
+    Peer("publicKey", listOf("0.0.0.0/0"), "endpoint:51820")
 )
 ```
 
 **Java Example**
 ```java
 TunnelConfig config = new TunnelConfig(
-        new Interface("10.0.0.1/24", "privateKey", 51820),
-        new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
+    new Interface("10.0.0.1/24", "privateKey", 51820),
+    new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
 );
 ```
 
@@ -293,6 +293,12 @@ The library supports these tunnel states:
 - **CONNECTING**: VPN is in the process of connecting.
 
 States are broadcasted by the service and can be used to update your UI.
+
+---
+
+## Acknowledgments
+
+This library is based on the [WireGuard Android](https://github.com/WireGuard/wireguard-android) project. Special thanks to the WireGuard team for their incredible work.
 
 ---
 
