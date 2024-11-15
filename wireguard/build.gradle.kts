@@ -48,7 +48,7 @@ publishing {
     publications {
         create("release", MavenPublication::class) {
             groupId = "com.github.CodeWithTamim"
-            artifactId = "wireguard-android"
+            artifactId = "WGAndroidLib"
             version = "1.0.0"
 
             afterEvaluate {
