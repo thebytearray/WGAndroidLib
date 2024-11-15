@@ -1,7 +1,7 @@
 
 # WireGuard Android Library
 
-[![Release](https://jitpack.io/v/username/wireguard-android.svg)](https://jitpack.io/#username/wireguard-android)
+[![Release](https://jitpack.io/v/CodeWithTamim/WGAndroidLib.svg)](https://jitpack.io/#CodeWithTamim/WGAndroidLib)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-Android-green.svg)](https://developer.android.com)
 
@@ -15,14 +15,17 @@ Simplify the integration of **WireGuard VPN** in your Android applications with 
 - **Comprehensive API**: Start, stop, and monitor VPN connections effortlessly.
 - **State Broadcasts**: Easily observe and react to connection state changes.
 - **Cross-Language Support**: Examples provided in both Kotlin and Java.
+- **Customizable**: Option to directly include the library source for deeper customization.
 
 ---
 
 ## Installation
 
+### Option 1: Using JitPack Dependency
+
 This library is available via [JitPack](https://jitpack.io). Add the repository and dependency to your project:
 
-### Gradle Groovy
+#### Gradle Groovy
 ```gradle
 allprojects {
     repositories {
@@ -32,11 +35,11 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.username:wireguard-android:Tag'
+    implementation 'com.github.CodeWithTamim:WGAndroidLib:1.0.0'
 }
 ```
 
-### Gradle Kotlin DSL
+#### Gradle Kotlin DSL
 ```kotlin
 repositories {
     ...
@@ -44,7 +47,37 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.username:wireguard-android:Tag")
+    implementation("com.github.CodeWithTamim:WGAndroidLib:1.0.0")
+}
+```
+
+### Option 2: Importing the WireGuard Module
+
+For advanced users who want more control or customization, you can directly include the WireGuard module in your project using Android Studio.
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/CodeWithTamim/WGAndroidLib.git
+   ```
+
+2. In Android Studio, follow these steps:
+   - Go to **File** > **New** > **Import Module**.
+   - Select the `wireguard` module folder from the cloned repository.
+   - Click **Finish** to add the module to your project.
+
+3. Add the module as a dependency in your app's `build.gradle` (Groovy) or `build.gradle.kts` (Kotlin DSL):
+
+#### Gradle Groovy
+```gradle
+dependencies {
+    implementation project(':wireguard')
+}
+```
+
+#### Gradle Kotlin DSL
+```kotlin
+dependencies {
+    implementation(project(":wireguard"))
 }
 ```
 
@@ -245,8 +278,8 @@ val config = TunnelConfig(
 **Java Example**
 ```java
 TunnelConfig config = new TunnelConfig(
-    new Interface("10.0.0.1/24", "privateKey", 51820),
-    new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
+        new Interface("10.0.0.1/24", "privateKey", 51820),
+        new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
 );
 ```
 
