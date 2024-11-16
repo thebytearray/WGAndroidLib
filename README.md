@@ -182,8 +182,6 @@ ServiceManager.init(this, R.drawable.notification_icon)
 ServiceManager.init(this, R.drawable.notification_icon);
 ```
 
-### Start and Stop the VPN
-
 #### Prepare for VPN Connection
 
 **Kotlin**
