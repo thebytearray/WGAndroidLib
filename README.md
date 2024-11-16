@@ -35,7 +35,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.CodeWithTamim:WGAndroidLib:1.0.0'
+    implementation 'com.github.CodeWithTamim:WGAndroidLib:1.0.1'
 }
 ```
 
@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-   implementation("com.github.CodeWithTamim:WGAndroidLib:1.0.0")
+   implementation("com.github.CodeWithTamim:WGAndroidLib:1.0.1")
 }
 ```
 
