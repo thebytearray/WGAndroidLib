@@ -1,4 +1,7 @@
 package com.nasahacker.wireguard.service
+
+import android.content.Context
+
 /**
  * CodeWithTamim
  *
@@ -7,6 +10,7 @@ package com.nasahacker.wireguard.service
  */
 interface ServiceListener {
     fun onStateBroadcast(
+        context: Context,
         state: String,
         duration: String,
         downloadSpeed: String,

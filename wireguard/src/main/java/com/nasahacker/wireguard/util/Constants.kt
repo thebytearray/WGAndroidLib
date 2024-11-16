@@ -11,12 +11,12 @@ object Constants {
     /**
      * Notification related constants
      */
-    const val CHANNEL_ID = "NETSS_CHANNEL"
-    const val CHANNEL_NAME = "NETSS VPN background Service"
+    const val CHANNEL_ID = "WIREGUARD_CHANNEL"
+    const val CHANNEL_NAME = "WireGuard Background Service"
     const val FOREGROUND_ID = 1
-    const val NOTIFICATION_TITLE = "NETSS VPN Connected"
-    const val NOTIFICATION_TEXT = "Connected to NETSS Mode"
-    const val SESSION_NAME = "Tunnel running"
+    const val NOTIFICATION_TITLE = "WireGuard Connected"
+    const val NOTIFICATION_TEXT = "Connected to WireGuard Tunnel"
+    const val SESSION_NAME = "WireGuard Tunnel"
 
     /**
      * Intent related constants
@@ -29,7 +29,7 @@ object Constants {
     const val DEFAULT_DOWNLOAD_SPEED = "↓ 00 b/s"
     const val UPLOAD_SPEED = "UPLOAD_SPEED"
     const val DEFAULT_UPLOAD_SPEED = "↑ 00 b/s"
-    const val STATS_BROADCAST_ACTION = "NETSS_STATS_BROADCAST_ACTION"
+    const val STATS_BROADCAST_ACTION = "WIREGUARD_STATS_BROADCAST_ACTION"
 
     /**
      * Actions
@@ -39,5 +39,5 @@ object Constants {
     const val BLOCKED_APPS = "BLOCKED_APPS"
     const val TUNNEL_CONFIG = "TUNNEL_CONFIG"
     const val SERVERS_LIST = "SERVERS_LIST"
-    const val DISCONNECT_ACTION = "com.nasahacker.netss.DISCONNECT_ACTION"
+    const val DISCONNECT_ACTION = "WIREGUARD_DISCONNECT_ACTION"
 }

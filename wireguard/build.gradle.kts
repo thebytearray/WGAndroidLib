@@ -49,7 +49,7 @@ publishing {
         create("release", MavenPublication::class) {
             groupId = "com.github.CodeWithTamim"
             artifactId = "WGAndroidLib"
-            version = "1.0.0"
+            version = "1.0.1"
 
             afterEvaluate {
                 from(components["release"])

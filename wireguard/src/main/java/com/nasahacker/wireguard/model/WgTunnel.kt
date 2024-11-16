@@ -16,7 +16,5 @@ class WgTunnel : Tunnel
         return Constants.SESSION_NAME
     }
 
-    override fun onStateChange(newState: Tunnel.State?)
-    {
-    }
+    override fun onStateChange(newState: Tunnel.State){}
 }

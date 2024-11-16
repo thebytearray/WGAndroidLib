@@ -161,7 +161,7 @@ class TunnelService : Service(), CoroutineScope {
         val downloadSpeed = "↓${(currentRxBytes - lastRxBytes).toSpeedString()}"
         val uploadSpeed = "↑${(currentTxBytes - lastTxBytes).toSpeedString()}"
 
-        listener?.onStateBroadcast(state.toString(), duration, downloadSpeed, uploadSpeed)
+        listener?.onStateBroadcast(this,state.toString(), duration, downloadSpeed, uploadSpeed)
         notificationManager.updateNotification(Constants.FOREGROUND_ID, downloadSpeed, uploadSpeed)
 
         lastRxBytes = currentRxBytes

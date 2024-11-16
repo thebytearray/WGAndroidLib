@@ -6,13 +6,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.nasahacker.wireguard.util.Constants
+
 /**
  * CodeWithTamim
  *
  * @developer Tamim Hossain
  * @mail tamimh.dev@gmail.com
  */
-class NotificationService(private val context: Context, private val notificationIconResId: Int) {
+class NotificationService(private val context: Context, private val notificationIconResId: Int) :
+    ServiceListener {
 
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -74,5 +76,36 @@ class NotificationService(private val context: Context, private val notification
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+    }
+
+    override fun onStateBroadcast(
+        context: Context,
+        state: String,
+        duration: String,
+        downloadSpeed: String,
+        uploadSpeed: String
+    ) {
+        // Create an intent for broadcasting VPN stats
+        val intent = Intent(Constants.STATS_BROADCAST_ACTION).apply {
+            putExtra(Constants.STATE, state)
+            putExtra(Constants.DURATION, duration)
+            putExtra(Constants.DOWNLOAD_SPEED, downloadSpeed)
+            putExtra(Constants.UPLOAD_SPEED, uploadSpeed)
+        }
+        // Send the broadcast
+        context.sendBroadcast(intent)
+    }
+
+
+    override fun onVpnDisconnected() {
+        // Create an intent for broadcasting VPN stats
+        val intent = Intent(Constants.STATS_BROADCAST_ACTION).apply {
+            putExtra(Constants.STATE, Constants.DEFAULT_STATE)
+            putExtra(Constants.DURATION, Constants.DEFAULT_DURATION)
+            putExtra(Constants.DOWNLOAD_SPEED, Constants.DEFAULT_DOWNLOAD_SPEED)
+            putExtra(Constants.UPLOAD_SPEED, Constants.DEFAULT_UPLOAD_SPEED)
+        }
+        // Send the broadcast
+        context.sendBroadcast(intent)
     }
 }
