@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("maven-publish")
+    alias(libs.plugins.maven)
 }
 
 android {
@@ -10,6 +10,7 @@ android {
 
     defaultConfig {
         minSdk = 21
+        version = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -49,7 +50,7 @@ publishing {
         create("release", MavenPublication::class) {
             groupId = "com.github.CodeWithTamim"
             artifactId = "WGAndroidLib"
-            version = "1.0.1"
+            version = "1.0.3"
 
             afterEvaluate {
                 from(components["release"])
@@ -59,13 +60,10 @@ publishing {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.core.ktx)
+    implementation(libs.coroutine)
     implementation (libs.tunnel)
     implementation(libs.gson)
+    implementation(libs.activity.ktx)
+    implementation(libs.appcompat)
 }

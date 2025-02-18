@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "WGAndroidLib"
-include(":app")
 include(":wireguard")
