@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         minSdk = 21
-        version = "1.0.3"
+        version = "1.0.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     packaging {
         jniLibs {
@@ -50,7 +50,7 @@ publishing {
         create("release", MavenPublication::class) {
             groupId = "com.github.CodeWithTamim"
             artifactId = "WGAndroidLib"
-            version = "1.0.3"
+            version = "1.0.5"
 
             afterEvaluate {
                 from(components["release"])
