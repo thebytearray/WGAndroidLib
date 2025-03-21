@@ -2,7 +2,7 @@
 agp = "8.8.2"
 coreKtx = "1.15.0"
 gson = "2.12.1"
-kotlin = "2.1.10"
+kotlin = "2.1.20"
 tunnel = "1.0.20230706"
 coroutine = "1.7.3"
 activityKtx = "1.10.1"
