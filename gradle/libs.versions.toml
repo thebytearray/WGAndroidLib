@@ -4,7 +4,7 @@ coreKtx = "1.15.0"
 gson = "2.12.1"
 kotlin = "2.1.10"
 tunnel = "1.0.20230706"
-coroutine = "1.7.3"
+coroutine = "1.10.2"
 activityKtx = "1.10.1"
 appcompat = "1.7.0"
 [libraries]
