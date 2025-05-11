@@ -5,6 +5,20 @@
 
 Simplify the integration of **WireGuard VPN** in your Android applications with this library. This library provides a clean API to manage VPN connections, handle configurations, and monitor tunnel states.
 
+## 👨‍💻 Professional Services
+
+I'm available for professional work! Whether you need help with:
+- Custom Android app development
+- Library development and maintenance
+- Code review and optimization
+- Technical consulting
+- Or any other Android-related work
+
+Feel free to reach out:
+- 📧 Email: [tamimh.dev@gmail.com](mailto:tamimh.dev@gmail.com)
+- 💬 Telegram: [@codewithtamim](https://t.me/codewithtamim)
+- 🌐 GitHub: [@CodeWithTamim](https://github.com/CodeWithTamim)
+
 ---
 
 ## Features
