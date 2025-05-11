@@ -137,16 +137,33 @@ public class TunnelApplication extends Application {
 }
 ```
 
-### 2. Add Required Permissions
+### 2. Add Required Permissions and Services
 
-Add these permissions to your `AndroidManifest.xml` file:
+Add these permissions and services to your `AndroidManifest.xml` file:
 
 ```xml
+<!-- Permissions -->
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+<!-- Services -->
+<service
+    android:name="com.nasahacker.wireguard.service.TunnelService"
+    android:exported="true"
+    android:foregroundServiceType="specialUse"
+    android:permission="android.permission.FOREGROUND_SERVICE" />
+
+<service
+    android:name="com.wireguard.android.backend.GoBackend$VpnService"
+    android:exported="true"
+    android:permission="android.permission.BIND_VPN_SERVICE">
+    <intent-filter>
+        <action android:name="android.net.VpnService" />
+    </intent-filter>
+</service>
 ```
 
 ### 3. Initialize the Library
