@@ -10,9 +10,8 @@ android {
 
     defaultConfig {
         minSdk = 21
-        version = "1.0.5"
+        version = "1.1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -43,14 +42,14 @@ android {
             withJavadocJar()
         }
     }
-
 }
+
 publishing {
     publications {
         create("release", MavenPublication::class) {
             groupId = "com.github.CodeWithTamim"
             artifactId = "WGAndroidLib"
-            version = "1.0.5"
+            version = "1.1.0"
 
             afterEvaluate {
                 from(components["release"])
@@ -62,7 +61,7 @@ publishing {
 dependencies {
     implementation(libs.core.ktx)
     implementation(libs.coroutine)
-    implementation (libs.tunnel)
+    implementation(libs.tunnel)
     implementation(libs.gson)
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)

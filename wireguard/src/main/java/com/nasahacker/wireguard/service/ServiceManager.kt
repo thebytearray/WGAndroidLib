@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.VpnService
 import android.os.Build
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -22,102 +23,159 @@ import com.nasahacker.wireguard.util.Constants.TUNNEL_CONFIG
  * ServiceManager
  *
  * Manages VPN-related services and permissions.
+ * This class provides a high-level API for managing WireGuard VPN connections.
  *
  * @author Tamim Hossain
  * @contact tamimh.dev@gmail.com
  */
 object ServiceManager {
+    private const val TAG = "ServiceManager"
+    private const val VPN_PERMISSION_REQUEST_CODE = 1
+    private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 2
 
-    private var vpnPermissionLauncher: ActivityResultLauncher<Intent>? = null
     var notificationIconResId: Int = 0
+        private set
 
     /**
-     * Initializes the VPN Service Manager.
+     * Sets the notification icon resource ID.
      *
-     * @param activity The calling activity.
-     * @param notificationIcon The resource ID for the notification icon.
+     * @param resId The resource ID of the notification icon
      */
-    fun init(activity: AppCompatActivity, notificationIcon: Int) {
-        notificationIconResId = notificationIcon
-        vpnPermissionLauncher = activity.registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            // Handle activity result
-        }
+    fun setNotificationIcon(resId: Int) {
+        notificationIconResId = resId
     }
 
     /**
-     * Checks if the device is ready for VPN connection.
+     * Checks if VPN permission is granted.
      *
-     * @param context The application context.
-     * @return True if VPN permissions are granted, otherwise false.
+     * @param context The application context
+     * @return true if VPN permission is granted, false otherwise
      */
-    fun isVpnReady(context: Context): Boolean {
-        val hasNotificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(context, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+    fun hasVpnPermission(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            android.Manifest.permission.BIND_VPN_SERVICE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     * Checks if notification permission is granted.
+     *
+     * @param context The application context
+     * @return true if notification permission is granted, false otherwise
+     */
+    fun hasNotificationPermission(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                context,
+                POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
         } else {
             true
         }
-
-        val vpnPrepared = VpnService.prepare(context) == null
-        return hasNotificationPermission && vpnPrepared
     }
 
     /**
-     * Requests necessary permissions and prepares the device for VPN connection.
+     * Requests VPN permission.
      *
-     * @param activity The calling activity.
+     * @param activity The activity to request permission from
+     * @param callback The callback to be called when permission is granted or denied
      */
-    fun requestVpnPermissions(activity: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(activity, POST_NOTIFICATIONS) != PermissionChecker.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity, arrayOf(POST_NOTIFICATIONS), 101)
-            }
+    fun requestVpnPermission(
+        activity: Activity,
+        callback: (Boolean) -> Unit
+    ) {
+        val intent = VpnService.prepare(activity)
+        if (intent != null) {
+            activity.startActivityForResult(intent, VPN_PERMISSION_REQUEST_CODE)
+        } else {
+            callback(true)
         }
-        VpnService.prepare(activity)?.let { vpnIntent ->
-            vpnPermissionLauncher?.launch(vpnIntent)
+    }
+
+    /**
+     * Requests notification permission.
+     *
+     * @param activity The activity to request permission from
+     * @param callback The callback to be called when permission is granted or denied
+     */
+    fun requestNotificationPermission(
+        activity: AppCompatActivity,
+        callback: (Boolean) -> Unit
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val launcher = activity.registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted ->
+                callback(isGranted)
+            }
+            launcher.launch(POST_NOTIFICATIONS)
+        } else {
+            callback(true)
         }
     }
 
     /**
      * Starts the VPN tunnel service with the given configuration.
      *
-     * @param context The application context.
-     * @param config The VPN tunnel configuration.
-     * @param blockedApps List of blocked apps (optional).
+     * @param context The application context
+     * @param config The VPN tunnel configuration
+     * @param blockedApps List of blocked apps (optional)
+     * @throws IllegalStateException if notification icon is not set
+     * @throws IllegalArgumentException if configuration is invalid
      */
     fun startVpnTunnel(context: Context, config: TunnelConfig, blockedApps: List<String>?) {
-        val startIntent = Intent(context, TunnelService::class.java).apply {
-            putExtra(BLOCKED_APPS, ArrayList(blockedApps ?: emptyList()))
-            putExtra(TUNNEL_CONFIG, config)
-            putExtra("NOTIFICATION_ICON", notificationIconResId)
+        require(notificationIconResId != 0) { "Notification icon must be set before starting VPN" }
+        
+        try {
+            val startIntent = Intent(context, TunnelService::class.java).apply {
+                putExtra(BLOCKED_APPS, ArrayList(blockedApps ?: emptyList()))
+                putExtra(TUNNEL_CONFIG, config)
+                putExtra("NOTIFICATION_ICON", notificationIconResId)
+            }
+            startService(context, startIntent)
+            Log.d(TAG, "VPN tunnel service started successfully")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to start VPN tunnel service", e)
+            throw e
         }
-        startService(context, startIntent)
     }
 
     /**
      * Stops the active VPN tunnel service.
      *
-     * @param context The application context.
+     * @param context The application context
      */
     fun stopVpnTunnel(context: Context) {
-        val stopIntent = Intent(context, TunnelService::class.java).apply {
-            action = STOP_ACTION
+        try {
+            val stopIntent = Intent(context, TunnelService::class.java).apply {
+                action = STOP_ACTION
+            }
+            startService(context, stopIntent)
+            Log.d(TAG, "VPN tunnel service stopped successfully")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to stop VPN tunnel service", e)
+            throw e
         }
-        startService(context, stopIntent)
     }
 
     /**
      * Starts the service as a foreground service or a normal service depending on Android version.
      *
-     * @param context The application context.
-     * @param intent The intent to start the service.
+     * @param context The application context
+     * @param intent The intent to start the service
+     * @throws SecurityException if the service cannot be started
      */
     private fun startService(context: Context, intent: Intent) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            context.startForegroundService(intent)
-        } else {
-            context.startService(intent)
+        try {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                context.startForegroundService(intent)
+            } else {
+                context.startService(intent)
+            }
+        } catch (e: SecurityException) {
+            Log.e(TAG, "Failed to start service due to security exception", e)
+            throw e
         }
     }
 }

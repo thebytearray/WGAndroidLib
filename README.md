@@ -1,8 +1,7 @@
-
 # WireGuard Android Library
 ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Downloads](https://img.shields.io/github/downloads/CodeWithTamim/WGAndroidLib/total?style=for-the-badge&logo=download)
-
+![Version](https://img.shields.io/badge/Version-1.1.0-blue?style=for-the-badge)
 
 Simplify the integration of **WireGuard VPN** in your Android applications with this library. This library provides a clean API to manage VPN connections, handle configurations, and monitor tunnel states.
 
@@ -10,11 +9,16 @@ Simplify the integration of **WireGuard VPN** in your Android applications with 
 
 ## Features
 
-- **Lightweight & Fast**: Minimal overhead with seamless integration.
-- **Comprehensive API**: Start, stop, and monitor VPN connections effortlessly.
-- **State Broadcasts**: Easily observe and react to connection state changes.
-- **Cross-Language Support**: Examples provided in both Kotlin and Java.
-- **Customizable**: Option to directly include the library source for deeper customization.
+- **Lightweight & Fast**: Minimal overhead with seamless integration
+- **Comprehensive API**: Start, stop, and monitor VPN connections effortlessly
+- **State Management**: Robust state management with proper error handling
+- **Traffic Statistics**: Real-time monitoring of upload and download speeds
+- **Notification Support**: Built-in notification system for VPN status
+- **Permission Handling**: Easy permission management for VPN and notifications
+- **Builder Pattern**: Clean configuration using builder pattern
+- **Input Validation**: Comprehensive validation of configuration parameters
+- **Error Handling**: Proper error handling and logging throughout the library
+- **Cross-Language Support**: Examples provided in both Kotlin and Java
 
 ---
 
@@ -34,7 +38,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.CodeWithTamim:WGAndroidLib:1.0.1'
+    implementation 'com.github.CodeWithTamim:WGAndroidLib:1.1.0'
 }
 ```
 
@@ -46,7 +50,7 @@ repositories {
 }
 
 dependencies {
-   implementation("com.github.CodeWithTamim:WGAndroidLib:1.0.1")
+   implementation("com.github.CodeWithTamim:WGAndroidLib:1.1.0")
 }
 ```
 
@@ -140,169 +144,135 @@ Add these permissions to your `AndroidManifest.xml` file:
 ```xml
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-<uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
 
-### 3. Register Services
-
-Declare the required services in `AndroidManifest.xml`:
-
-```xml
-<service
-    android:name="com.nasahacker.wireguard.service.TunnelService"
-    android:exported="true"
-    android:foregroundServiceType="specialUse"
-    android:permission="android.permission.FOREGROUND_SERVICE" />
-
-<service
-    android:name="com.wireguard.android.backend.GoBackend$VpnService"
-    android:exported="true"
-    android:permission="android.permission.BIND_VPN_SERVICE">
-    <intent-filter>
-        <action android:name="android.net.VpnService" />
-    </intent-filter>
-</service>
-```
-
----
-
-## Usage
-
-### Initialize the Service Manager
+### 3. Initialize the Library
 
 #### Kotlin Example
 ```kotlin
-ServiceManager.init(this, R.drawable.notification_icon)
-```
-
-#### Java Example
-```java
-ServiceManager.init(this, R.drawable.notification_icon);
-```
-
-#### Prepare for VPN Connection
-
-**Kotlin**
-```kotlin
-if (!ServiceManager.isPreparedForConnection(context)) {
-    ServiceManager.prepareForConnection(activity)
-}
-```
-
-**Java**
-```java
-if (!ServiceManager.isPreparedForConnection(context)) {
-    ServiceManager.prepareForConnection(activity);
-}
-```
-
-#### Start the VPN
-
-**Kotlin**
-```kotlin
-val config = TunnelConfig(
-    Interface("10.0.0.1/24", "privateKey", 51820),
-    Peer("publicKey", listOf("0.0.0.0/0"), "endpoint:51820")
-)
-ServiceManager.startTunnel(context, config, blockedApps = listOf("com.example.app"))
-```
-
-**Java**
-```java
-TunnelConfig config = new TunnelConfig(
-    new Interface("10.0.0.1/24", "privateKey", 51820),
-    new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
-);
-ServiceManager.startTunnel(context, config, Arrays.asList("com.example.app"));
-```
-
-#### Stop the VPN
-
-**Kotlin**
-```kotlin
-ServiceManager.stopTunnel(context)
-```
-
-**Java**
-```java
-ServiceManager.stopTunnel(context);
-```
-
----
-
-## Listen for Tunnel State Changes
-
-Register a broadcast receiver to listen for state changes:
-
-#### Kotlin Example
-```kotlin
-val receiver = object : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-        val state = intent?.getStringExtra("TUNNEL_STATE")
-        // Handle state change: CONNECTED, DISCONNECTED, CONNECTING
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // Set notification icon
+        ServiceManager.setNotificationIcon(R.drawable.ic_vpn)
+        
+        // Check and request permissions
+        if (!ServiceManager.hasVpnPermission(this)) {
+            ServiceManager.requestVpnPermission(this) { isGranted ->
+                if (isGranted) {
+                    // VPN permission granted
+                }
+            }
+        }
+        
+        if (!ServiceManager.hasNotificationPermission(this)) {
+            ServiceManager.requestNotificationPermission(this) { isGranted ->
+                if (isGranted) {
+                    // Notification permission granted
+                }
+            }
+        }
+    }
+    
+    private fun startVpn() {
+        // Create VPN configuration using builder pattern
+        val config = TunnelConfig.Builder()
+            .setInterfaceAddress("10.0.0.2/24")
+            .setPrivateKey("YOUR_PRIVATE_KEY")
+            .setListenPort(51820)
+            .setPublicKey("PEER_PUBLIC_KEY")
+            .setAllowedIps(listOf("0.0.0.0/0"))
+            .setEndpoint("PEER_ENDPOINT:51820")
+            .build()
+            
+        // Start VPN with configuration
+        ServiceManager.startVpnTunnel(this, config, null)
+    }
+    
+    private fun stopVpn() {
+        ServiceManager.stopVpnTunnel(this)
     }
 }
-context.registerReceiver(receiver, IntentFilter("TUNNEL_STATE_ACTION"))
 ```
 
 #### Java Example
 ```java
-BroadcastReceiver receiver = new BroadcastReceiver() {
+public class MainActivity extends AppCompatActivity {
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String state = intent.getStringExtra("TUNNEL_STATE");
-        // Handle state change: CONNECTED, DISCONNECTED, CONNECTING
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // Set notification icon
+        ServiceManager.INSTANCE.setNotificationIcon(R.drawable.ic_vpn);
+        
+        // Check and request permissions
+        if (!ServiceManager.INSTANCE.hasVpnPermission(this)) {
+            ServiceManager.INSTANCE.requestVpnPermission(this, isGranted -> {
+                if (isGranted) {
+                    // VPN permission granted
+                }
+            });
+        }
+        
+        if (!ServiceManager.INSTANCE.hasNotificationPermission(this)) {
+            ServiceManager.INSTANCE.requestNotificationPermission(this, isGranted -> {
+                if (isGranted) {
+                    // Notification permission granted
+                }
+            });
+        }
     }
-};
-context.registerReceiver(receiver, new IntentFilter("TUNNEL_STATE_ACTION"));
+    
+    private void startVpn() {
+        // Create VPN configuration using builder pattern
+        TunnelConfig config = new TunnelConfig.Builder()
+            .setInterfaceAddress("10.0.0.2/24")
+            .setPrivateKey("YOUR_PRIVATE_KEY")
+            .setListenPort(51820)
+            .setPublicKey("PEER_PUBLIC_KEY")
+            .setAllowedIps(Collections.singletonList("0.0.0.0/0"))
+            .setEndpoint("PEER_ENDPOINT:51820")
+            .build();
+            
+        // Start VPN with configuration
+        ServiceManager.INSTANCE.startVpnTunnel(this, config, null);
+    }
+    
+    private void stopVpn() {
+        ServiceManager.INSTANCE.stopVpnTunnel(this);
+    }
+}
 ```
 
 ---
 
-## Tunnel Configurations
+## Error Handling
 
-Define configurations for the VPN connection using the `TunnelConfig` model.
+The library provides comprehensive error handling and logging. All major operations are wrapped in try-catch blocks and provide detailed error messages. You can monitor the logs using the following tags:
 
-**Kotlin Example**
-```kotlin
-val config = TunnelConfig(
-    Interface("10.0.0.1/24", "privateKey", 51820),
-    Peer("publicKey", listOf("0.0.0.0/0"), "endpoint:51820")
-)
-```
-
-**Java Example**
-```java
-TunnelConfig config = new TunnelConfig(
-    new Interface("10.0.0.1/24", "privateKey", 51820),
-    new Peer("publicKey", Arrays.asList("0.0.0.0/0"), "endpoint:51820")
-);
-```
+- `ServiceManager`: For service management related logs
+- `TunnelService`: For VPN tunnel related logs
 
 ---
 
-## Tunnel States
+## Contributing
 
-The library supports these tunnel states:
-- **CONNECTED**: VPN is active and connected.
-- **DISCONNECTED**: VPN is stopped.
-- **CONNECTING**: VPN is in the process of connecting.
-
-States are broadcasted by the service and can be used to update your UI.
-
----
-
-## Acknowledgments
-
-This library is based on the [WireGuard Android](https://github.com/WireGuard/wireguard-android) project. Special thanks to the WireGuard team for their incredible work.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
 ## License
 
-This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-Developed by [Tamim Hossain](mailto:tamimh.dev@gmail.com).
+## Author
+
+- **Tamim Hossain**
+  - Email: tamimh.dev@gmail.com
+  - GitHub: [@CodeWithTamim](https://github.com/CodeWithTamim)
