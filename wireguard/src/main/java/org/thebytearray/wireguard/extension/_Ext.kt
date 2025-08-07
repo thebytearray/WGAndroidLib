@@ -1,11 +1,13 @@
-package com.nasahacker.wireguard.extension
+package org.thebytearray.wireguard.extension
+
+
 
 
 /**
- * CodeWithTamim
+ * TheByteArray
  *
  * @developer Tamim Hossain
- * @mail tamimh.dev@gmail.com
+ * @mail contact@thebytearray.org
  */
 
 const val THRESHOLD = 1000L

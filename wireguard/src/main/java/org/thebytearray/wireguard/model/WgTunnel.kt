@@ -1,13 +1,14 @@
-package com.nasahacker.wireguard.model
+package org.thebytearray.wireguard.model
 
-import com.nasahacker.wireguard.util.Constants
+
 import com.wireguard.android.backend.Tunnel
+import org.thebytearray.wireguard.util.Constants
 
 /**
- * CodeWithTamim
+ * TheByteArray
  *
  * @developer Tamim Hossain
- * @mail tamimh.dev@gmail.com
+ * @mail contact@thebytearray.org
  */
 class WgTunnel : Tunnel
 {

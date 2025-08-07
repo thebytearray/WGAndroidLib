@@ -1,11 +1,13 @@
-package com.nasahacker.wireguard.util
+package org.thebytearray.wireguard.util
 
-import com.nasahacker.wireguard.model.TunnelState
+import org.thebytearray.wireguard.model.TunnelState
+
+
 /**
- * CodeWithTamim
+ * TheByteArray
  *
  * @developer Tamim Hossain
- * @mail tamimh.dev@gmail.com
+ * @mail contact@thebytearray.org
  */
 object Constants {
     /**

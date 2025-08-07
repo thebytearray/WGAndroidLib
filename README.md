@@ -1,46 +1,26 @@
 # WireGuard Android Library
-![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
-![Downloads](https://img.shields.io/github/downloads/CodeWithTamim/WGAndroidLib/total?style=for-the-badge&logo=download)
-![Version](https://img.shields.io/badge/Version-1.1.0-blue?style=for-the-badge)
 
-Simplify the integration of **WireGuard VPN** in your Android applications with this library. This library provides a clean API to manage VPN connections, handle configurations, and monitor tunnel states.
+A simple Android library for integrating WireGuard VPN functionality into your applications. Provides clean API for managing VPN connections, handling configurations, and monitoring tunnel states.
 
-## 👨‍💻 Professional Services
-
-I'm available for professional work! Whether you need help with:
-- Custom Android app development
-- Library development and maintenance
-- Code review and optimization
-- Technical consulting
-- Or any other Android-related work
-
-Feel free to reach out:
-- 📧 Email: [tamimh.dev@gmail.com](mailto:tamimh.dev@gmail.com)
-- 💬 Telegram: [@codewithtamim](https://t.me/codewithtamim)
-- 🌐 GitHub: [@CodeWithTamim](https://github.com/CodeWithTamim)
-
----
 
 ## Features
 
-- **Lightweight & Fast**: Minimal overhead with seamless integration
-- **Comprehensive API**: Start, stop, and monitor VPN connections effortlessly
-- **State Management**: Robust state management with proper error handling
-- **Traffic Statistics**: Real-time monitoring of upload and download speeds
-- **Notification Support**: Built-in notification system for VPN status
-- **Permission Handling**: Easy permission management for VPN and notifications
-- **Builder Pattern**: Clean configuration using builder pattern
-- **Input Validation**: Comprehensive validation of configuration parameters
-- **Error Handling**: Proper error handling and logging throughout the library
-- **Cross-Language Support**: Examples provided in both Kotlin and Java
-
----
+- Lightweight and fast with minimal overhead
+- Comprehensive API for VPN connection management
+- Robust state management with proper error handling
+- Real-time traffic statistics monitoring
+- Built-in notification system for VPN status
+- Easy permission management for VPN and notifications
+- Clean configuration using builder pattern
+- Comprehensive input validation
+- Proper error handling and logging
+- Examples provided in both Kotlin and Java
 
 ## Installation
 
 ### Option 1: Using JitPack Dependency
 
-This library is available via [JitPack](https://jitpack.io). Add the repository and dependency to your project:
+Add the repository and dependency to your project:
 
 #### Gradle Groovy
 ```gradle
@@ -52,7 +32,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.CodeWithTamim:WGAndroidLib:1.1.0'
+    implementation 'com.github.thebytearray:WGAndroidLib:1.1.0'
 }
 ```
 
@@ -64,25 +44,25 @@ repositories {
 }
 
 dependencies {
-   implementation("com.github.CodeWithTamim:WGAndroidLib:1.1.0")
+   implementation("com.github.thebytearray:WGAndroidLib:1.1.0")
 }
 ```
 
 ### Option 2: Importing the WireGuard Module
 
-For advanced users who want more control or customization, you can directly include the WireGuard module in your project using Android Studio.
+For advanced users who want more control, you can directly include the WireGuard module in your project.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/CodeWithTamim/WGAndroidLib.git
+   git clone https://github.com/thebytearray/WGAndroidLib.git
    ```
 
-2. In Android Studio, follow these steps:
-   - Go to **File** > **New** > **Import Module**.
-   - Select the `wireguard` module folder from the cloned repository.
-   - Click **Finish** to add the module to your project.
+2. In Android Studio:
+   - Go to File > New > Import Module
+   - Select the `wireguard` module folder from the cloned repository
+   - Click Finish to add the module to your project
 
-3. Add the module as a dependency in your app's `build.gradle` (Groovy) or `build.gradle.kts` (Kotlin DSL):
+3. Add the module as a dependency:
 
 #### Gradle Groovy
 ```gradle
@@ -98,13 +78,11 @@ dependencies {
 }
 ```
 
----
-
 ## Setup
 
 ### 1. Configure the Application Class
 
-Create an `Application` class to configure a notification channel for VPN usage:
+Create an Application class to configure notification channel for VPN usage:
 
 #### Kotlin Example
 ```kotlin
@@ -153,7 +131,7 @@ public class TunnelApplication extends Application {
 
 ### 2. Add Required Permissions and Services
 
-Add these permissions and services to your `AndroidManifest.xml` file:
+Add these permissions and services to your AndroidManifest.xml:
 
 ```xml
 <!-- Permissions -->
@@ -165,7 +143,7 @@ Add these permissions and services to your `AndroidManifest.xml` file:
 
 <!-- Services -->
 <service
-    android:name="com.nasahacker.wireguard.service.TunnelService"
+    android:name="org.thebytearray.wireguard.service.TunnelService"
     android:exported="true"
     android:foregroundServiceType="specialUse"
     android:permission="android.permission.FOREGROUND_SERVICE" />
@@ -279,31 +257,23 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
----
-
 ## Error Handling
 
-The library provides comprehensive error handling and logging. All major operations are wrapped in try-catch blocks and provide detailed error messages. You can monitor the logs using the following tags:
+The library provides comprehensive error handling and logging. All major operations are wrapped in try-catch blocks and provide detailed error messages. You can monitor the logs using these tags:
 
 - `ServiceManager`: For service management related logs
 - `TunnelService`: For VPN tunnel related logs
-
----
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
----
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Author
 
 - **Tamim Hossain**
   - Email: tamimh.dev@gmail.com
-  - GitHub: [@CodeWithTamim](https://github.com/CodeWithTamim)
+  - GitHub: @thebytearray

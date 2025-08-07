@@ -1,16 +1,15 @@
-package com.nasahacker.wireguard.service
+package org.thebytearray.wireguard.service
 
 import android.app.Service
 import android.content.Intent
 import android.net.TrafficStats
 import android.os.IBinder
 import android.util.Log
-import com.nasahacker.wireguard.extension.formatDuration
-import com.nasahacker.wireguard.extension.toSpeedString
-import com.nasahacker.wireguard.model.TunnelConfig
-import com.nasahacker.wireguard.model.TunnelState
-import com.nasahacker.wireguard.util.Constants
-import com.nasahacker.wireguard.util.PersistentProps
+import org.thebytearray.wireguard.extension.toSpeedString
+import org.thebytearray.wireguard.model.TunnelConfig
+import org.thebytearray.wireguard.model.TunnelState
+import org.thebytearray.wireguard.util.Constants
+import org.thebytearray.wireguard.util.PersistentProps
 import com.wireguard.android.backend.Backend
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
@@ -20,17 +19,14 @@ import com.wireguard.config.InetNetwork
 import com.wireguard.config.Interface
 import com.wireguard.config.Peer
 import kotlinx.coroutines.*
+import org.thebytearray.wireguard.extension.formatDuration
 import kotlin.coroutines.CoroutineContext
 
 /**
- * VpnTunnelService
+ * TheByteArray
  *
- * Handles the VPN tunnel lifecycle and state management.
- * This service manages the WireGuard VPN connection, including connection state,
- * traffic statistics, and notification updates.
- *
- * @author Tamim Hossain
- * @contact tamimh.dev@gmail.com
+ * @developer Tamim Hossain
+ * @mail contact@thebytearray.org
  */
 class TunnelService : Service(), CoroutineScope {
     private val TAG = "TunnelService"
