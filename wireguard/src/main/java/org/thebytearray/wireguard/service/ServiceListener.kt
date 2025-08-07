@@ -1,12 +1,12 @@
-package com.nasahacker.wireguard.service
+package org.thebytearray.wireguard.service
 
 import android.content.Context
 
 /**
- * CodeWithTamim
+ * TheByteArray
  *
  * @developer Tamim Hossain
- * @mail tamimh.dev@gmail.com
+ * @mail contact@thebytearray.org
  */
 interface ServiceListener {
     fun onStateBroadcast(

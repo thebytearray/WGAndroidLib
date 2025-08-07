@@ -1,12 +1,17 @@
-package com.nasahacker.wireguard.service
+package org.thebytearray.wireguard.service
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.nasahacker.wireguard.util.Constants
-
+import org.thebytearray.wireguard.util.Constants
+/**
+ * TheByteArray
+ *
+ * @developer Tamim Hossain
+ * @mail contact@thebytearray.org
+ */
 class NotificationService(private val context: Context, private val notificationIconResId: Int) : ServiceListener {
 
     private val notificationManager =

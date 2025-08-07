@@ -3,14 +3,17 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.maven)
 }
+val sdkVersion = "1.1.1"
+val jitpackGroupId = "com.github.thebytearray"
+val packageId = "org.thebytearray.wireguard"
 
 android {
-    namespace = "com.nasahacker.wireguard"
+    namespace = packageId
     compileSdk = 35
 
     defaultConfig {
         minSdk = 21
-        version = "1.1.0"
+        version = sdkVersion
 
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -47,9 +50,9 @@ android {
 publishing {
     publications {
         create("release", MavenPublication::class) {
-            groupId = "com.github.CodeWithTamim"
+            groupId = jitpackGroupId
             artifactId = "WGAndroidLib"
-            version = "1.1.0"
+            version = sdkVersion
 
             afterEvaluate {
                 from(components["release"])

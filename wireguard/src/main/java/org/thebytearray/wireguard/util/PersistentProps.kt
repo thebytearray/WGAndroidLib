@@ -1,14 +1,14 @@
-package com.nasahacker.wireguard.util
+package org.thebytearray.wireguard.util
 
-import com.nasahacker.wireguard.model.WgTunnel
+import org.thebytearray.wireguard.model.WgTunnel
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 
 /**
- * CodeWithTamim
+ * TheByteArray
  *
  * @developer Tamim Hossain
- * @mail tamimh.dev@gmail.com
+ * @mail contact@thebytearray.org
  */
 class PersistentProps private constructor() {
 

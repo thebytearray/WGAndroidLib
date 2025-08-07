@@ -1,9 +1,9 @@
-package com.nasahacker.wireguard.model
+package org.thebytearray.wireguard.model
 /**
- * CodeWithTamim
+ * TheByteArray
  *
  * @developer Tamim Hossain
- * @mail tamimh.dev@gmail.com
+ * @mail contact@thebytearray.org
  */
 enum class TunnelState {
     CONNECTED,

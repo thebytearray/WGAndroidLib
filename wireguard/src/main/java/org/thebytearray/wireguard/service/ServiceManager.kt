@@ -1,4 +1,4 @@
-package com.nasahacker.wireguard.service
+package org.thebytearray.wireguard.service
 
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
@@ -8,25 +8,19 @@ import android.content.pm.PackageManager
 import android.net.VpnService
 import android.os.Build
 import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
-import com.nasahacker.wireguard.model.TunnelConfig
-import com.nasahacker.wireguard.util.Constants.BLOCKED_APPS
-import com.nasahacker.wireguard.util.Constants.STOP_ACTION
-import com.nasahacker.wireguard.util.Constants.TUNNEL_CONFIG
+import org.thebytearray.wireguard.model.TunnelConfig
+import org.thebytearray.wireguard.util.Constants.BLOCKED_APPS
+import org.thebytearray.wireguard.util.Constants.STOP_ACTION
+import org.thebytearray.wireguard.util.Constants.TUNNEL_CONFIG
 
 /**
- * ServiceManager
+ * TheByteArray
  *
- * Manages VPN-related services and permissions.
- * This class provides a high-level API for managing WireGuard VPN connections.
- *
- * @author Tamim Hossain
- * @contact tamimh.dev@gmail.com
+ * @developer Tamim Hossain
+ * @mail contact@thebytearray.org
  */
 object ServiceManager {
     private const val TAG = "ServiceManager"

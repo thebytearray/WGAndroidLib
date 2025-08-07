@@ -1,16 +1,13 @@
-package com.nasahacker.wireguard.model
+package org.thebytearray.wireguard.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.net.InetAddress
 import java.util.regex.Pattern
-
 /**
- * Configuration class for WireGuard tunnel.
- * This class represents the configuration needed to establish a WireGuard VPN connection.
+ * TheByteArray
  *
- * @property interfaceField The interface configuration for the tunnel
- * @property peer The peer configuration for the tunnel
+ * @developer Tamim Hossain
+ * @mail contact@thebytearray.org
  */
 data class TunnelConfig(
     @SerializedName("interface")
