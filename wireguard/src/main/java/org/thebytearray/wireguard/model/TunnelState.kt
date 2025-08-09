@@ -1,4 +1,5 @@
 package org.thebytearray.wireguard.model
+
 /**
  * TheByteArray
  *

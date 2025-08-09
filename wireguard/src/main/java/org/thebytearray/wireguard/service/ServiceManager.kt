@@ -47,8 +47,7 @@ object ServiceManager {
      */
     fun hasVpnPermission(context: Context): Boolean {
         return ContextCompat.checkSelfPermission(
-            context,
-            android.Manifest.permission.BIND_VPN_SERVICE
+            context, android.Manifest.permission.BIND_VPN_SERVICE
         ) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -61,8 +60,7 @@ object ServiceManager {
     fun hasNotificationPermission(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
-                context,
-                POST_NOTIFICATIONS
+                context, POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
         } else {
             true
@@ -76,8 +74,7 @@ object ServiceManager {
      * @param callback The callback to be called when permission is granted or denied
      */
     fun requestVpnPermission(
-        activity: Activity,
-        callback: (Boolean) -> Unit
+        activity: Activity, callback: (Boolean) -> Unit
     ) {
         val intent = VpnService.prepare(activity)
         if (intent != null) {
@@ -94,8 +91,7 @@ object ServiceManager {
      * @param callback The callback to be called when permission is granted or denied
      */
     fun requestNotificationPermission(
-        activity: AppCompatActivity,
-        callback: (Boolean) -> Unit
+        activity: AppCompatActivity, callback: (Boolean) -> Unit
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val launcher = activity.registerForActivityResult(
@@ -120,7 +116,7 @@ object ServiceManager {
      */
     fun startVpnTunnel(context: Context, config: TunnelConfig, blockedApps: List<String>?) {
         require(notificationIconResId != 0) { "Notification icon must be set before starting VPN" }
-        
+
         try {
             val startIntent = Intent(context, TunnelService::class.java).apply {
                 putExtra(BLOCKED_APPS, ArrayList(blockedApps ?: emptyList()))

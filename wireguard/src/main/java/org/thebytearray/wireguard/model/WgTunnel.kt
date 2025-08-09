@@ -10,12 +10,10 @@ import org.thebytearray.wireguard.util.Constants
  * @developer Tamim Hossain
  * @mail contact@thebytearray.org
  */
-class WgTunnel : Tunnel
-{
-    override fun getName(): String
-    {
+class WgTunnel : Tunnel {
+    override fun getName(): String {
         return Constants.SESSION_NAME
     }
 
-    override fun onStateChange(newState: Tunnel.State){}
+    override fun onStateChange(newState: Tunnel.State) {}
 }
