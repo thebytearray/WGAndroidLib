@@ -1,10 +1,10 @@
 # WGAndroidLib - Simple Android Wireguard Library
 
-## This library is a wrapper around the main wireguard android project intended to simplify the implementation of wireguard in android apps without handling complex functions.
+#### This library is a wrapper around the main wireguard android project intended to simplify the implementation of wireguard in android apps without handling complex functions.
 
-## It's production ready and provides simple and easy abstraction layer and functions to work with wireguard.
+#### It's production ready and provides simple and easy abstraction layer and functions to work with wireguard.
 
-## Features :
+#### Features :
 
 * Provides Dev Friendly Apis to start/stop/monitor connection.
 * State management through broadcast receiver.
@@ -12,15 +12,15 @@
 * Validation logic for wireguard configurations.
 * Easy permission handling for VPNService and Notification.
 
-## Installation and Api Documentation
+#### Installation and Api Documentation
 
-### Installation Documentation
+#### Installation Documentation
 
-### Option 1 : Using jitpack builds
+#### Option 1 : Using jitpack builds
 
-### Add the jitpack repository and dependency to your app settings.gradle
+#### Add the jitpack repository and dependency to your app settings.gradle
 
-### Groovy
+#### Groovy
 
 ```groovy
 allprojects {
@@ -35,7 +35,7 @@ dependencies {
 }
 ```
 
-### Kotlin DSL
+#### Kotlin DSL
 
 ```kotlin
 repositories {
@@ -48,27 +48,27 @@ dependencies {
 }
 ```
 
-### And then sync the project and follow the api usage guide.
+#### And then sync the project and follow the api usage guide.
 
-### Option 2 : Importing and using as a sub-module
+#### Option 2 : Importing and using as a sub-module
 
-### This step is for advanced devs who want to use the library as sub module and later maybe want to do some changes to tailor to their needs .
+#### This step is for advanced devs who want to use the library as sub module and later maybe want to do some changes to tailor to their needs .
 
-### 1.Clone the repository.
+#### 1.Clone the repository.
 
 ```
 git clone https://github.com/thebytearray/WGAndroidLib.git
 ```
 
-### 2.In Android Studio :
+#### 2.In Android Studio :
 
-### Go to File > New > Import Module , and then select the
+#### Go to File > New > Import Module , and then select the
 
 `wireguard` module from the cloned project and then add it to your project.
 
-### 3.Add the module dependency.
+#### 3.Add the module dependency.
 
-### Groovy (App Level)
+#### Groovy (App Level)
 
 ```groovy
 dependencies {
@@ -76,7 +76,7 @@ dependencies {
 }
 ```
 
-### Kotlin DSL (App Level)
+#### Kotlin DSL (App Level)
 
 ```kotlin
 dependencies {
@@ -84,15 +84,15 @@ dependencies {
 }
 ```
 
-### Api Documentation
+#### Api Documentation
 
-### Setup
+#### Setup
 
-### 1.Configure your Application class (host app) to create a notification channel that will be used for the service of wireguard.
+#### 1.Configure your Application class (host app) to create a notification channel that will be used for the service of wireguard.
 
-### Examples
+#### Examples
 
-### Kotlin
+#### Kotlin
 
 ```kotlin
 class TunnelApplication : Application() {
@@ -116,7 +116,7 @@ class TunnelApplication : Application() {
 }
 ```
 
-### Java
+#### Java
 ```java
 public class TunnelApplication extends Application {
     @Override
@@ -139,7 +139,7 @@ public class TunnelApplication extends Application {
     }
 }
 ```
-### 2.Configure permissions and service declaration in AndroidManifest.xml
+#### 2.Configure permissions and service declaration in AndroidManifest.xml
 ```xml
 <!-- Permissions -->
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
@@ -165,8 +165,8 @@ public class TunnelApplication extends Application {
 </service>
 ```
 
-### 3.Configure and initialize the library
-### Kotlin
+#### 3.Configure and initialize the library
+#### Kotlin
 ```kotlin
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -214,7 +214,7 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-### Java
+#### Java
 ```java
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -262,12 +262,12 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-### Error handling
-### The library itself handles some of the most common errors, specifically related to configuration validation. If you want to handle some yourself if you have then it's recommended to follow the option 2 and import the library as a module and use it.
+#### Error handling
+#### The library itself handles some of the most common errors, specifically related to configuration validation. If you want to handle some yourself if you have then it's recommended to follow the option 2 and import the library as a module and use it.
 
-### License
-### This Project is licensed under the Apache 2.0 - See LICENSE for more details.
-### Acknowledgement
-### [wireguard-android](https://github.com/WireGuard/wireguard-android)
-### WireGuard® is a registered trademark of Jason A. Donenfeld 
+#### License
+#### This Project is licensed under the Apache 2.0 - See LICENSE for more details.
+#### Acknowledgement
+#### [wireguard-android](https://github.com/WireGuard/wireguard-android)
+#### WireGuard® is a registered trademark of Jason A. Donenfeld 
 
