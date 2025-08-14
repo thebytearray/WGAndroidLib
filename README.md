@@ -31,7 +31,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.thebytearray:WGAndroidLib:1.1.2'
+ implementation 'com.github.thebytearray:WGAndroidLib:1.1.3'
 }
 ```
 
@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.thebytearray:WGAndroidLib:1.1.2")
+    implementation("com.github.thebytearray:WGAndroidLib:1.1.3")
 }
 ```
 
