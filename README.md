@@ -31,7 +31,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.thebytearray:WGAndroidLib:1.1.3'
+ implementation 'com.github.thebytearray:WGAndroidLib:1.1.3'
 }
 ```
 
